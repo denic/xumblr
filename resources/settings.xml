@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+    <category label="30200">
+        <setting label="30230" type="text" id="blog" default=".tumblr.com"/>
+      <setting type="sep"/>
+        <setting label="30210" type="text" id="email" default=""/>
+        <setting label="30220" type="text" id="password" option="hidden"  enable="!eq(-1,)" default=""/>
+      <setting type="sep"/>
+        <setting label="30240" type="slider" id="limit" default="30" range="5,100" option="int" />
+    </category>
+</settings>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<!--
+    Document   : settings.xml
+    Package    : Xumblr
+    Author     : Dennis Bücker
+    Copyright  : 2012, Dennis Bücker, DE
+    License    : Gnu General Public License - see LICENSE.TXT
+    Description: English language strings for tumblr integration
+-->
+<strings>
+    <!-- Addon Settings -->
+	<string id="30200">Tumblr Settings</string>
+	<string id="30210">Email</string>
+    <string id="30220">Password</string>
+	<string id="30230">Blog</string>
+    <string id="30240">Fetch last n entries</string>
+    <!-- Message strings -->
+</strings>
