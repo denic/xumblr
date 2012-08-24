@@ -1,8 +1,13 @@
-import urllib,urllib2,re,xbmcplugin,xbmcgui,sys,os
+import urllib,urllib2,re,xbmcplugin,xbmcgui,sys,os,xbmcaddon
 
-#set our library path
-print xbmc.translatePath( os.path.join( os.getcwd(), 'resources', 'lib' ))
-sys.path.append (xbmc.translatePath( os.path.join( os.getcwd(), 'plugin.image.xumblr', 'resources', 'lib' ) ))
+__settings__ = xbmcaddon.Addon(id='plugin.image.xumblr')
+__language__ = __settings__.getLocalizedString
+__home__ = __settings__.getAddonInfo('path')
+
+# set our library path
+sys.path.append (xbmc.translatePath( os.path.join(__home__, 'resources', 'lib')))
+
+# import tumblr module
 import tumblr
 
 thisPlugin = int(sys.argv[1])
@@ -14,18 +19,20 @@ EMAIL=xbmcplugin.getSetting(thisPlugin, 'email')
 PASSWORD=xbmcplugin.getSetting(thisPlugin, 'password')
 LIMIT=xbmcplugin.getSetting(thisPlugin, 'limit')
 
-# ---------- 
+# ---------- Callbacks ----------
 
 def CATEGORIES():
       addDir("Dashboard","",1,"")
       
-def INDEX(url):
+def DASHBOARD():
   images = tumblr.dashboard(EMAIL, PASSWORD, LIMIT)
 
   i=0
   for p in images['posts']:
     i+=1
     addImage(p['tumblelog']['name'] + " at " + p['date'], p['photo-url-1280'])
+
+# ---------- List handlers ----------
   
 def addDir(name,url,mode,iconimage):
   u = sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
@@ -41,7 +48,8 @@ def addImage(name, url):
   liz.setInfo(type="Image", infoLabels={ "Title": name })
   ok=xbmcplugin.addDirectoryItem(handle=thisPlugin, url=url, listitem=liz)
   return ok
-  
+
+# Parameters
 def get_params():
   param=[]
   paramstring=sys.argv[2]
@@ -65,6 +73,9 @@ def get_params():
 
   return param  
 
+
+# ---------- Main ----------
+
 params=get_params()
 
 url=None
@@ -72,29 +83,31 @@ name=None
 mode=None
 
 try:
-        url=urllib.unquote_plus(params["url"])
+  url=urllib.unquote_plus(params["url"])
 except:
-        pass
+  pass
 try:
-        name=urllib.unquote_plus(params["name"])
+  name=urllib.unquote_plus(params["name"])
 except:
-        pass
+  pass
 try:
-        mode=int(params["mode"])
+  mode=int(params["mode"])
 except:
-        pass
+  pass
 
+# some debugging output
 print "Mode: "+str(mode)
 print "URL: "+str(url)
 print "Name: "+str(name)
 
+# ####################
+# Routing
+# ####################
 if mode==None:
-  print ""
   CATEGORIES()
        
 elif mode==1:
-  print ""+url
-  INDEX(url)
+  DASHBOARD()
 
 
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

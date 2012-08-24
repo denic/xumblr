@@ -39,9 +39,4 @@ def dashboard(email, password, num):
 		if 400 == e.code:
 			raise TumblrRequestError(str(e))
 	except Exception, e:
-		print 'FUUUUUUUUUU'
-
-
-if __name__ == "__main__":
-    import sys
-    print dashboard(int(sys.argv[1]))
+		raise Exception(e)
